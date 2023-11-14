@@ -1,0 +1,93 @@
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Java
+*.class
+
+# IntelliJ
+.idea/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Visual Studio Code
+.vscode/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/
+build/
+
+# Compiled binaries
+*.dll
+*.exe
+*.out
+*.so
+*.dylib
+
+# Dependency directories
+vendor/
+bower_components/
+jspm_packages/
+
+# Package files
+*.jar
+*.war
+*.ear
+*.log
+
+# macOS specific files
+.DS_Store
+
+# Linux directories
+/proc/
+/sys/
+/run/
+/tmp/
+
+# Editor-specific files
+*~
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# Sublime Text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+
+# Notepad++
+*.nupkg
+*.ndoc
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Keil
+__history/
+UV4/
