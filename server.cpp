@@ -10,7 +10,7 @@ int main() {
 
   server_socket = socket(AF_INET, SOCK_STREAM, 0);
   server_address.sin_family = AF_INET;
-  server_address.sin_port = htons(8080);
+  server_address.sin_port = htons(9966);
   server_address.sin_addr.s_addr = INADDR_ANY;
 
   // TODO: error handling 
@@ -23,10 +23,12 @@ int main() {
   client_socket = accept(server_socket, reinterpret_cast<sockaddr*>(&client_address), &client_len);
 
   char buf[1024] = {0};
-  read(client_socket, buf, sizeof(buf));
-  std::cout << "Received: " << buf << std::endl;
-  
-  send(client_socket, buf, strlen(buf), 0);
+  while (true) {
+    read(client_socket, buf, sizeof(buf));
+    std::cout << "Received: " << buf << std::endl;
+    
+    send(client_socket, buf, strlen(buf), 0);
+  }
 
   close(client_socket);
   close(server_socket);
