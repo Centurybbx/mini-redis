@@ -2,11 +2,29 @@
 
 namespace miniredis {
 
-void OnConnDataReceived(int conn_fd, const char* data, size_t len) {
-  // echo
-  if (len > 0) {
-    reactor::WriteConn(conn_fd, data, len);
+void OnConnDataReceived(ReqParser::Ptr rp, int conn_fd, const char* data, size_t len) {
+  if (len == 0) {
+    return;
   }
+
+  rp->Feed(data, len);
+  for (;;) {
+    std::vector<std::string> args;
+    if (!rp->PopCmd(args)) {
+      Log("bad redis req");
+      reactor::CloseConn(conn_fd);
+      return;
+    }
+    if (args.empty()) {
+      return;
+    }
+
+    std::string resp;
+    ProcCmd(args, resp);
+
+    reactor::WriteConn(conn_fd, resp.data(), resp.size());
+  }
+
 }
 
 class Worker {
@@ -48,7 +66,9 @@ class Worker {
             new_conns_.clear();
           }
           for (auto conn_fd : conns) {
-            if (!reactor::RegisterConn(conn_fd, OnConnDataReceived)) {
+            if (!reactor::RegisterConn(conn_fd, [rp = ReqParser::New()](int cfd, const char* data, size_t len) {
+              OnConnDataReceived(rp, cfd, data, len);
+            })) {
               Log("reg new conn failed");
               close(conn_fd);
             }

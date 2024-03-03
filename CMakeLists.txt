@@ -9,5 +9,5 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_FLAGS}")
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_HOME_DIRECTORY}/bin)
 
 
-add_executable(mini-redis main.cpp reactor.cpp server.cpp worker.cpp util.cpp)
+add_executable(mini-redis main.cpp reactor.cpp server.cpp worker.cpp util.cpp db.cpp req_parser.cpp robj.cpp robj_str.cpp)
 

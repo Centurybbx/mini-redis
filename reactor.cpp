@@ -54,7 +54,7 @@ class WriteBuf {
 
  private:
   std::list<std::string> queue_;
-  size_t head_;  // pointer to the first string
+  size_t head_ = 0;  // pointer to the first string
 };
 
 static const int kEpollEventCountMax = 1024;
@@ -162,6 +162,9 @@ bool RegisterConn(
       }
 
       on_data_received(conn_fd, buf, (size_t)ret);
+      if (read_handlers.count(conn_fd) == 0) {
+        return;
+      }
       if (ret == 0) {
         CloseFd(conn_fd);
         return;
@@ -211,6 +214,10 @@ void CloseFd(int fd) {
   ready_read_fds_.erase(fd);
   write_bufs.erase(fd);
   close(fd);
+}
+
+void CloseConn(int fd) {
+  CloseFd(fd);
 }
 
 void Start() {
